@@ -3,5 +3,9 @@ chatbots
 
 This is a Chatbot-based dialobot. I customized these codes.
 
-from https://github.com/hyunwoongko/dialobot  -- dialobot \n
-from https://github.com/hyunwoongko/kochat  -- kochat
+
+
+
+source1: https://github.com/hyunwoongko/dialobot  -- dialobot 
+
+source2 https://github.com/hyunwoongko/kochat  -- kochat
