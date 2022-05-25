@@ -23,10 +23,8 @@ def home():
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
-    path = 'C:/Users/kmkkm/Desktop/python/orderqueen_chatbot/orderqueen.csv'
-    path_empty = 'C:/Users/kmkkm/Desktop/python/orderqueen_chatbot/orderqueen_empty.csv'
-    # path = 'C:/Users/sumin/OneDrive/문서/AI programming/Homework6/orderqueen.csv'
-    # path_empty = 'C:/Users/sumin/OneDrive/문서/AI programming/Homework6/orderqueen_empty.csv'
+    path = './order_coffee.csv'
+    path_empty = './order_coffee_empty.csv'
     print('output_list : ', output_list)
     req = request.get_json(force=True)
     print(req)
@@ -341,71 +339,6 @@ def webhook():
         return {
             'fulfillmentText': utter
         }
-
-    return {
-        'fulfillmentText': bot
-    }
-
-    # orderqueen = pd.read_csv('C:/Users/dlsrn/Desktop/oderqueen (처음 상태).csv')
-    # orderqueen.to_csv('C:/Users/dlsrn/Desktop/orderqueen.csv', index=False, encoding='utf-8-sig')
-    '''
-    if bot_intent=="004_menu_edit":
-
-        orderqueen = pd.read_csv('C:/Users/dlsrn/Desktop/orderqueen.csv') # 주문 변경을 위해 데이터가 저장된 csv 파일 호출
-
-        menu=req['queryResult']['parameters']['menu']
-        temperature=req['queryResult']['parameters']['temperature']
-        number=req['queryResult']['parameters']['number']
-
-        edit=req['queryResult']['parameters']['edit']
-
-        for i in range(0,len(edit),1):
-            if edit[i]=='제거':
-                for j in range(0,len(orderqueen),1):
-                    if menu[i]==orderqueen.loc[j,'메뉴']:
-                        orderqueen.drop([j], axis = 0)
-                    elif menu[i]==orderqueen.loc[j,'메뉴'] and number[i]=orderqueen.loc[j, 'number']:
-                        orderqueen.drop
-            elif edit[i]=='추가':
-                for j in range(0, len(orderqueen), 1):
-                    if menu[i] == orderqueen.loc[j, '메뉴']:
-                        orderqueen.drop([j], axis=0)
-
-
-        for i in range(0,menu_len,1):
-            menu.append(req['queryResult']['parameters']['menu'][i])
-
-        for i in range(0, nubmer_len, 1):
-            number.append(req['queryResult']['parameters']['number'][i])
-
-        for i in range(0, temperature_len, 1):
-            temperature.append(req['queryResult']['parameters']['temperature'][i])
-
-        oderqueen= pd.read_csv('C:/Users/dlsrn/Desktop/orderqueen.csv')
-
-        for i in range(0,len(menu),1):
-            oderqueen.loc[i,menu]==0
-        for i in range(0, len(menu), 1):
-            oderqueen.loc[i, number] == 0
-        for i in range(0, len(menu), 1):
-            oderqueen.loc[i, temperature] == 0
-
-        for i in range(0,len(menu),1):   
-            oderqueen.loc[i,'menu']=menu[i]
-
-
-        for i in range(0,len(number),1):
-          if len(number)!=0:  
-            oderqueen.loc[i,'number']=number[i]
-          else:
-              bot 
-              return{
-                  'fulfillmentText': bot
-              }
-
-        for i in range(0,len(menu),1):
-          oderqueen.loc[i,'temperature']=temperature[i]
-        '''
 
     return {
         'fulfillmentText': bot
