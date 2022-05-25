@@ -24,4 +24,4 @@
 3. 추가 - 다이얼로그플로우와 텔레그램을 연동하여 챗봇에 대한 접근성을 향상
 
 
-Local Server : ngrok
+Used Local Server : ngrok
