@@ -31,10 +31,6 @@ def webhook():
     bot = ""
     list_input = [[], [], []]
     user = req['queryResult']['queryText']
-    '''
-    for i in range(0,len(req['queryResult']['fulfillmentMessages']),1):
-        bot= bot+req['queryResult']['fulfillmentMessages'][i]['text']['text'][0]+'\n'+'\n'
-    '''
     bot_intent = req['queryResult']['intent']['displayName']  # intent 입력
 
     print('User :', user)
@@ -107,53 +103,53 @@ def webhook():
         list_input[1] += number
         list_input[2] += temperature
 
-        orderqueen = pd.read_csv(path, encoding='utf-8')  # 데이터를 저장할 csv 파일 호출
-        print("호출된 orderqueen 데이터프레임\n", orderqueen)
+        order_coffee = pd.read_csv(path, encoding='utf-8')  # 데이터를 저장할 csv 파일 호출
+        print("호출된 orderqueen 데이터프레임\n", order_coffee)
 
         menu_dict = {'라떼아트': 5000, '카페라떼': 5000, '카푸치노': 5000, '카페모카': 5000, '바닐라라떼': 6000,
                       '카라멜마끼아또': 6000, '초코라떼': 5000, '초코밀크': 4500,
                       '캬라멜 밀크': 4500, '아메리카노': 4500, '자몽 에이드': 5000, '레몬 에이드': 5000, '청포도 에이드': 5000}
 
         for i in range(0, len(menu), 1):
-            orderqueen.loc[i, 'menu'] = menu[i]  # menu 열에 menu 값 입력
+            order_coffee.loc[i, 'menu'] = menu[i]  # menu 열에 menu 값 입력
         for i in range(0, len(number), 1):
-            orderqueen.loc[i, 'number'] = number[i]  # number 열에 number 값 입력
+            order_coffee.loc[i, 'number'] = number[i]  # number 열에 number 값 입력
         for i in range(0, len(temperature), 1):
-            orderqueen.loc[i, 'temperature'] = temperature[i]  # temperature 열에 temperature 값 입력
+            order_coffee.loc[i, 'temperature'] = temperature[i]  # temperature 열에 temperature 값 입력
         for i in range(0, len(menu), 1):
-            orderqueen.loc[i, 'cost'] = menu_dict[menu[i]]
+            order_coffee.loc[i, 'cost'] = menu_dict[menu[i]]
 
         print('데이터 프레임에 입력된 값을 넣는다.\n')
-        print(orderqueen)
+        print(order_coffee)
 
-        orderqueen = orderqueen.fillna(0)  # 데이터 프레임에서 NaN값을 0으로 대처한다.
+        order_coffee = order_coffee.fillna(0)  # 데이터 프레임에서 NaN값을 0으로 대처한다.
 
         print('데이터 프레임에서 NaN값을 0으로 대처한다.\n')
-        print(orderqueen)
+        print(order_coffee)
 
-        orderqueen_output = []  # 빈 리스트 생성
+        order_coffee_output = []  # 빈 리스트 생성
         for i in range(len(menu)):
             line = []  # 안쪽 리스트로 사용할 빈 리스트 생성
-            orderqueen_output.append(line)
+            order_coffee_output.append(line)
 
-        print("menu, number, temperature 순서로 담아 놓을 리스트 생성(orderqueen_output) : ", orderqueen_output)
+        print("menu, number, temperature 순서로 담아 놓을 리스트 생성(order_coffee_output) : ", order_coffee_output)
 
         for i in range(0, len(menu), 1):
-            orderqueen_output[i].append(orderqueen.loc[i, 'menu'])
-            orderqueen_output[i].append(orderqueen.loc[i, 'number'])
-            orderqueen_output[i].append(orderqueen.loc[i, 'temperature'])
+            order_coffee_output[i].append(order_coffee.loc[i, 'menu'])
+            order_coffee_output[i].append(order_coffee.loc[i, 'number'])
+            order_coffee_output[i].append(order_coffee.loc[i, 'temperature'])
 
-        print("데이터 입력 후의 orderqueen_output 리스트 : ", orderqueen_output)
+        print("데이터 입력 후의 order_coffee_output 리스트 : ", order_coffee_output)
 
         count = 0
 
-        for i in range(0, len(orderqueen_output), 1):
-            if 0 in orderqueen_output[i]:  # orderqueen_output의 각 리스트[menu, number, temperature]에 0이 들어 있을 경우
+        for i in range(0, len(order_coffee_output), 1):
+            if 0 in order_coffee_output[i]:  # order_coffee_output의 각 리스트[menu, number, temperature]에 0이 들어 있을 경우
                 count = count + 1  # count에 1을 더한다.
 
         print("존재하는 0의 빈도:", count)
 
-        orderqueen.to_csv(path, index=False,
+        order_coffee.to_csv(path, index=False,
                           encoding='utf-8-sig')  # 데이터 프레임을 다시 csv파일로 저장한다.
 
         utter = ""
@@ -162,7 +158,7 @@ def webhook():
         n_dict = {'1': '한', '2': '두', '3': '세', '4': '네', '5': '다섯', '6': '여섯', '7': '일곱', '8': '여덟', '9': '아홉',
                   '10': '열'}
 
-        if count == 0:  # 모든 orderqueen_output의 각 리스트[menu, number, temperature]에 0이 없는 경우 telegram으로 출력을 진행한다.
+        if count == 0:  # 모든 order_coffee_output의 각 리스트[menu, number, temperature]에 0이 없는 경우 telegram으로 출력을 진행한다.
             print("리스트에 0이 존재하지 않습니다.")
             bot = ""
             for i in range(len(list_input[0])):
@@ -209,60 +205,60 @@ def webhook():
         list_input[1] += number
         list_input[2] += temperature
 
-        orderqueen = pd.read_csv(path, encoding='utf-8')  # 데이터를 저장할 csv 파일 호출
-        print("호출된 orderqueen 데이터프레임\n", orderqueen)
+        order_coffee = pd.read_csv(path, encoding='utf-8')  # 데이터를 저장할 csv 파일 호출
+        print("호출된 order_coffee 데이터프레임\n", order_coffee)
 
         menu_dict = {'라떼아트': 5000, '카페라떼': 5000, '카푸치노': 5000, '카페모카': 5000, '바닐라라떼': 6000,
                       '카라멜마끼아또': 6000, '초코라떼': 5000, '초코밀크': 4500,
                       '캬라멜 밀크': 4500, '아메리카노': 4500, '자몽 에이드': 5000, '레몬 에이드': 5000, '청포도 에이드': 5000}
 
-        print("추가하기 전 이미 들어가 있는 메뉴의 수",len(orderqueen))
+        print("추가하기 전 이미 들어가 있는 메뉴의 수",len(order_coffee))
         print("추가하기 전 데이터프레임")
-        print(orderqueen)
+        print(order_coffee)
 
 
-        print(len(orderqueen))
+        print(len(order_coffee))
 
 
 
         for i in range(0, len(menu), 1):
             new_data = {'menu': menu[i], 'number': number[i], 'temperature': temperature[i], 'cost': menu_dict[menu[i]]}
-            orderqueen = orderqueen.append(new_data, ignore_index=True)
+            order_coffee = order_coffee.append(new_data, ignore_index=True)
 
 
         print('데이터 프레임에 입력된 값을 넣는다.\n')
-        print(orderqueen)
+        print(order_coffee)
 
 
 
-        orderqueen = orderqueen.fillna(0)  # 데이터 프레임에서 NaN값을 0으로 대처한다.
+        order_coffee = order_coffee.fillna(0)  # 데이터 프레임에서 NaN값을 0으로 대처한다.
 
         print('데이터 프레임에서 NaN값을 0으로 대처한다.\n')
-        print(orderqueen)
+        print(order_coffee)
 
-        orderqueen_output = []  # 빈 리스트 생성
+        order_coffee_output = []  # 빈 리스트 생성
         for i in range(len(menu)):
             line = []  # 안쪽 리스트로 사용할 빈 리스트 생성
-            orderqueen_output.append(line)
+            order_coffee_output.append(line)
 
-        print("menu, number, temperature 순서로 담아 놓을 리스트 생성(orderqueen_output) : ", orderqueen_output)
+        print("menu, number, temperature 순서로 담아 놓을 리스트 생성(order_coffee_output) : ", order_coffee_output)
 
         for i in range(0, len(menu), 1):
-            orderqueen_output[i].append(orderqueen.loc[i, 'menu'])
-            orderqueen_output[i].append(orderqueen.loc[i, 'number'])
-            orderqueen_output[i].append(orderqueen.loc[i, 'temperature'])
+            order_coffee_output[i].append(order_coffee.loc[i, 'menu'])
+            order_coffee_output[i].append(order_coffee.loc[i, 'number'])
+            order_coffee_output[i].append(order_coffee.loc[i, 'temperature'])
 
-        print("데이터 입력 후의 orderqueen_output 리스트 : ", orderqueen_output)
+        print("데이터 입력 후의 order_coffee_output 리스트 : ", order_coffee_output)
 
         count = 0
 
-        for i in range(0, len(orderqueen_output), 1):
-            if 0 in orderqueen_output[i]:  # orderqueen_output의 각 리스트[menu, number, temperature]에 0이 들어 있을 경우
+        for i in range(0, len(order_coffee_output), 1):
+            if 0 in order_coffee_output[i]:  # order_coffee_output의 각 리스트[menu, number, temperature]에 0이 들어 있을 경우
                 count = count + 1  # count에 1을 더한다.
 
         print("존재하는 0의 빈도:", count)
 
-        orderqueen.to_csv(path, index=False,
+        order_coffee.to_csv(path, index=False,
                           encoding='utf-8-sig')  # 데이터 프레임을 다시 csv파일로 저장한다.
 
         utter = ""
@@ -271,17 +267,17 @@ def webhook():
         n_dict = {1: '한', 2: '두', 3: '세', 4: '네', 5: '다섯', 6: '여섯', 7: '일곱', 8: '여덟', 9: '아홉',
                   10: '열'}
 
-        orderqueen1 = pd.read_csv(path, encoding='utf-8')
+        order_coffee1 = pd.read_csv(path, encoding='utf-8')
 
         result = [[], [], []]
-        for i in range(len(orderqueen1)):
-            result[0].append(orderqueen1.loc[i, 'menu'])
-            result[1].append(orderqueen1.loc[i, 'number'])
-            result[2].append(orderqueen1.loc[i, 'temperature'])
+        for i in range(len(order_coffee1)):
+            result[0].append(order_coffee1.loc[i, 'menu'])
+            result[1].append(order_coffee1.loc[i, 'number'])
+            result[2].append(order_coffee1.loc[i, 'temperature'])
 
         print(result)
 
-        if count == 0:  # 모든 orderqueen_output의 각 리스트[menu, number, temperature]에 0이 없는 경우 telegram으로 출력을 진행한다.
+        if count == 0:  # 모든 order_coffee_output의 각 리스트[menu, number, temperature]에 0이 없는 경우 telegram으로 출력을 진행한다.
             print("리스트에 0이 존재하지 않습니다.")
             bot = ""
             for i in range(len(result[0])):
@@ -309,12 +305,12 @@ def webhook():
             }
 
     if bot_intent == '006_payment':
-        orderqueen_menu = []
-        orderqueen_num = []
-        orderqueen = pd.read_csv(path, encoding='utf-8')  # 데이터를 저장할 csv 파일 호출
-        for i in range(0, len(orderqueen), 1):
-            orderqueen_menu.append(orderqueen.loc[i, 'menu'])
-            orderqueen_num.append(orderqueen.loc[i, 'number'])
+        order_coffee_menu = []
+        order_coffee_num = []
+        order_coffee = pd.read_csv(path, encoding='utf-8')  # 데이터를 저장할 csv 파일 호출
+        for i in range(0, len(order_coffee), 1):
+            order_coffee_menu.append(order_coffee.loc[i, 'menu'])
+            order_coffee_num.append(order_coffee.loc[i, 'number'])
 
 
         menu_dict_ = {'라떼아트': 5000, '카페라떼': 5000, '카푸치노': 5000, '카페모카': 5000, '바닐라라떼': 6000,
@@ -322,20 +318,20 @@ def webhook():
                      '캬라멜 밀크': 4500, '아메리카노': 4500, '자몽 에이드': 5000, '레몬 에이드': 5000, '청포도 에이드': 5000}
 
         cost = 0
-        for c, n in zip(orderqueen_menu, orderqueen_num):
+        for c, n in zip(order_coffee_menu, order_coffee_num):
             cost += menu_dict_[c] * n
         print(list_input, '__________________________')
         utter = "총 {}원 결제가 완료되었습니다.\n이용해주셔서 감사합니다.\n이상 오더퀸 커피였습니다.".format(cost)
 
-        orderqueen1 = pd.read_csv(path_empty,
+        order_coffee1 = pd.read_csv(path_empty,
                                  encoding='utf-8')  # 데이터를 저장할 csv 파일 호출
 
 
-        orderqueen1.to_csv(path, index=False, encoding='utf-8-sig')
-        orderqueen2 = pd.read_csv(path, encoding='utf-8')  # 데이터를 저장할 csv 파일 호출
+        order_coffee1.to_csv(path, index=False, encoding='utf-8-sig')
+        order_coffee2 = pd.read_csv(path, encoding='utf-8')  # 데이터를 저장할 csv 파일 호출
 
         print('다음 사용자를 위해 데이터가 모두 초기화되었습니다')
-        print(orderqueen2)
+        print(order_coffee2)
         return {
             'fulfillmentText': utter
         }
